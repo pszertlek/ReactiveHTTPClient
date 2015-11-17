@@ -7,13 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		717AFFA17116E47E1D0BD783 /* libPods-ReactiveHttpClient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D45C8D6B01EDDA2AF707048 /* libPods-ReactiveHttpClient.a */; };
 		F444ADB11BFB23880087613A /* ReactiveHttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F444ADB01BFB23880087613A /* ReactiveHttpClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		F444ADC41BFB2A610087613A /* AFHTTPSessionManager+RACSupport.h in Headers */ = {isa = PBXBuildFile; fileRef = F444ADBC1BFB2A610087613A /* AFHTTPSessionManager+RACSupport.h */; };
+		F444ADC51BFB2A610087613A /* AFHTTPSessionManager+RACSupport.m in Sources */ = {isa = PBXBuildFile; fileRef = F444ADBD1BFB2A610087613A /* AFHTTPSessionManager+RACSupport.m */; };
+		F444ADC61BFB2A610087613A /* HttpClient.h in Headers */ = {isa = PBXBuildFile; fileRef = F444ADBE1BFB2A610087613A /* HttpClient.h */; };
+		F444ADC71BFB2A610087613A /* HttpClient.m in Sources */ = {isa = PBXBuildFile; fileRef = F444ADBF1BFB2A610087613A /* HttpClient.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		15095960F066783239DE9671 /* Pods-ReactiveHttpClient.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveHttpClient.release.xcconfig"; path = "Pods/Target Support Files/Pods-ReactiveHttpClient/Pods-ReactiveHttpClient.release.xcconfig"; sourceTree = "<group>"; };
+		3FDAB351E1B922056B60B446 /* Pods-ReactiveHttpClient.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ReactiveHttpClient.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ReactiveHttpClient/Pods-ReactiveHttpClient.debug.xcconfig"; sourceTree = "<group>"; };
+		7D45C8D6B01EDDA2AF707048 /* libPods-ReactiveHttpClient.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ReactiveHttpClient.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F444ADAD1BFB23880087613A /* ReactiveHttpClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ReactiveHttpClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F444ADB01BFB23880087613A /* ReactiveHttpClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReactiveHttpClient.h; sourceTree = "<group>"; };
 		F444ADB21BFB23880087613A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F444ADBC1BFB2A610087613A /* AFHTTPSessionManager+RACSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AFHTTPSessionManager+RACSupport.h"; sourceTree = "<group>"; };
+		F444ADBD1BFB2A610087613A /* AFHTTPSessionManager+RACSupport.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AFHTTPSessionManager+RACSupport.m"; sourceTree = "<group>"; };
+		F444ADBE1BFB2A610087613A /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
+		F444ADBF1BFB2A610087613A /* HttpClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpClient.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -21,17 +33,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				717AFFA17116E47E1D0BD783 /* libPods-ReactiveHttpClient.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0B0E7D87C340F224FF6D687A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				3FDAB351E1B922056B60B446 /* Pods-ReactiveHttpClient.debug.xcconfig */,
+				15095960F066783239DE9671 /* Pods-ReactiveHttpClient.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		E6D65E66DCD8C0DEE26E014D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7D45C8D6B01EDDA2AF707048 /* libPods-ReactiveHttpClient.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F444ADA31BFB23880087613A = {
 			isa = PBXGroup;
 			children = (
 				F444ADAF1BFB23880087613A /* ReactiveHttpClient */,
 				F444ADAE1BFB23880087613A /* Products */,
+				0B0E7D87C340F224FF6D687A /* Pods */,
+				E6D65E66DCD8C0DEE26E014D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -47,6 +79,10 @@
 			isa = PBXGroup;
 			children = (
 				F444ADB01BFB23880087613A /* ReactiveHttpClient.h */,
+				F444ADBC1BFB2A610087613A /* AFHTTPSessionManager+RACSupport.h */,
+				F444ADBD1BFB2A610087613A /* AFHTTPSessionManager+RACSupport.m */,
+				F444ADBE1BFB2A610087613A /* HttpClient.h */,
+				F444ADBF1BFB2A610087613A /* HttpClient.m */,
 				F444ADB21BFB23880087613A /* Info.plist */,
 			);
 			path = ReactiveHttpClient;
@@ -59,6 +95,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F444ADC41BFB2A610087613A /* AFHTTPSessionManager+RACSupport.h in Headers */,
+				F444ADC61BFB2A610087613A /* HttpClient.h in Headers */,
 				F444ADB11BFB23880087613A /* ReactiveHttpClient.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -70,10 +108,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F444ADB51BFB23880087613A /* Build configuration list for PBXNativeTarget "ReactiveHttpClient" */;
 			buildPhases = (
+				24619E63160AFBF8D86983C8 /* Check Pods Manifest.lock */,
 				F444ADA81BFB23880087613A /* Sources */,
 				F444ADA91BFB23880087613A /* Frameworks */,
 				F444ADAA1BFB23880087613A /* Headers */,
 				F444ADAB1BFB23880087613A /* Resources */,
+				C2A25C6CA855AE17BD5CE90A /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -125,11 +165,46 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		24619E63160AFBF8D86983C8 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C2A25C6CA855AE17BD5CE90A /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ReactiveHttpClient/Pods-ReactiveHttpClient-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F444ADA81BFB23880087613A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F444ADC51BFB2A610087613A /* AFHTTPSessionManager+RACSupport.m in Sources */,
+				F444ADC71BFB2A610087613A /* HttpClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +301,7 @@
 		};
 		F444ADB61BFB23880087613A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3FDAB351E1B922056B60B446 /* Pods-ReactiveHttpClient.debug.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -242,6 +318,7 @@
 		};
 		F444ADB71BFB23880087613A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 15095960F066783239DE9671 /* Pods-ReactiveHttpClient.release.xcconfig */;
 			buildSettings = {
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -275,6 +352,7 @@
 				F444ADB71BFB23880087613A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -2,15 +2,14 @@
 //  HttpClient.m
 //  Motormaster
 //
-//  Created by Johnny on 3/11/15.
+//  Created by Coco on 3/11/15.
 //  Copyright (c) 2015 Hangzhou Xuanchao Technology Co. Ltd. All rights reserved.
 //
 
 #import "HttpClient.h"
-#import "NSString+Encoding.h"
 #import "AFHTTPSessionManager+RACSupport.h"
 #import <JSONModel.h>
-#import "NSObject+Additions.h"
+#import <ReactiveCocoa.h>
 
 NSString * const kTokenExpiresNotification = @"TokenExpires_Notification";
 NSInteger TOKEN_EXPIRES_ERROR_CODE = -11111;
@@ -22,13 +21,7 @@ static NSString *kCodeKey = @"code";
 static NSString *kMessageKey = @"message";
 static NSString *AppKey = @"1711394416800";
 static NSString *AppSecret = @"cc1745453991ec29bfedd5f80a2d5bf0";
-static NSString *const kTyreErrorDomain = @"com.tqmall.tyre.httperror";
-static NSString *const kAppURLKey = @"AppBaseURL";
-
-static NSString *const kURLDevelop = @"http://121.41.128.78:8010";
-static NSString *const kURLTest = @"http://121.41.128.78:8010";
-static NSString *const kURLStable = @"http://wind.app.epei360.cn";
-static NSString *const kURLProduction = @"http://wind.app.tqmall.com";
+static NSString *const kTyreErrorDomain = @"com.coco.httperror";
 
 
 // TODO need to modify
@@ -62,15 +55,9 @@ static dispatch_queue_t yx_httpClient_complete_queue() {
 }
 
 - (instancetype)init
-{//10.0.0.131http://121.41.128.78:8010
-    NSString *string = kURLProduction;
-#ifdef DEBUG
-    string = [[NSUserDefaults standardUserDefaults]objectForKey:kAppURLKey];
-#endif
-    
+{
+    NSString *string;
     self = [super initWithBaseURL:[NSURL URLWithString:string]];
-
-    self.sessionId = [TSAppManager sharedManager].loginModel.sessionId;
     if (self) {
         self.requestSerializer = [AFJSONRequestSerializer serializer];
         [self.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Accept"];
@@ -88,24 +75,6 @@ static dispatch_queue_t yx_httpClient_complete_queue() {
 
 #pragma mark - Private
 
-- (NSDictionary *)getFinialParameters:(NSDictionary *)params
-{
-    NSMutableDictionary *mutableParams = [NSMutableDictionary dictionaryWithDictionary:params];
-    mutableParams[@"sessionId"] = _sessionId;
-//    [mutableParams setObject:VALID_STRING([AppManager sharedManager].uuid) forKey:@"deviceid"];
-//    [mutableParams setObject:VALID_STRING([AppManager sharedManager].device) forKey:@"device"];
-//    [mutableParams setObject:VALID_STRING([AppManager sharedManager].system) forKey:@"sys"];
-//    [mutableParams setObject:VALID_STRING([AppManager sharedManager].appVersion) forKey:@"ver"];
-////    [mutableParams setObject:@([AppManager sharedManager].latitude) forKey:@"latitude"];
-////    [mutableParams setObject:@([AppManager sharedManager].longitude) forKey:@"longitude"];
-//    [mutableParams setObject:@"2" forKey:@"refer"];
-//    [mutableParams setObject:@([AppManager sharedManager].shopId) forKey:@"sid"];
-//    [mutableParams setObject:VALID_STRING([AppManager sharedManager].token) forKey:@"token"];
-//    mutableParams = [self trimAllParams:mutableParams];
-    [mutableParams setObject:AppKey forKey:@"appKey"];
-    NSDictionary *finalParams = [self signParams:mutableParams];
-    return finalParams;
-}
 
 - (NSMutableDictionary *)trimAllParams:(NSDictionary *)params
 {
@@ -126,42 +95,6 @@ static dispatch_queue_t yx_httpClient_complete_queue() {
         
     }
     return trimParams;
-}
-
-- (NSDictionary *)signParams:(NSDictionary *)params
-{
-    NSMutableString *paramString = [NSMutableString string];
-    [paramString appendString:AppKey];
-    
-    NSArray *sortedKeys = [params.allKeys sortedArrayUsingComparator:^(NSString *key1, NSString *key2){
-        return [key1 compare:key2 options:NSCaseInsensitiveSearch];
-    }];
-    
-    for (NSString *key in sortedKeys) {
-        id obj = params[key];
-        NSString *stringValue;
-        if ([obj isKindOfClass:[NSString class]]) {
-            stringValue = obj;
-        }
-        else {
-            if ([obj respondsToSelector:@selector(stringValue)]) {
-                stringValue = [obj stringValue];
-            }
-            else {
-                stringValue = [obj JSONString];
-            }
-        }
-        
-        [paramString appendFormat:@"%@%@", key, stringValue];
-    }
-    
-    [paramString appendString:AppSecret];
-    NSString *sign = [[[paramString URLEncode] SHA1Encode] uppercaseString];
-    
-    NSMutableDictionary *signedParams = [params mutableCopy];
-    [signedParams setObject:sign forKey:@"sign"];
-    
-    return signedParams;
 }
 
 
@@ -200,19 +133,19 @@ static dispatch_queue_t yx_httpClient_complete_queue() {
             if ([responseObject isKindOfClass:[NSDictionary class]] == NO) {
                 responseObject = nil;
             }
-            BOOL isSuccess = [responseObject[@"success"] toBool];
+            BOOL isSuccess = [responseObject[@"success"] boolValue];
             if (isSuccess) {
                 if (resultBlock) {
                     resultBlock(responseObject,nil);
                 }
             } else {
-                NSInteger errorCode = [responseObject[@"code"] toInt];
-                NSString *errorMessage = [responseObject[@"errorMsg"] toString];
+                NSInteger errorCode = [responseObject[@"code"] integerValue];
+                NSString *errorMessage = responseObject[@"errorMsg"];
                 if (errorCode == TOKEN_EXPIRES_ERROR_CODE) {
                     [[NSNotificationCenter defaultCenter] postNotificationName:(NSString *)kTokenExpiresNotification object:self userInfo:nil];
                     return;
                 }
-                NSError *error = [NSError errorWithDomain:kTyreErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey : VALID_STRING(errorMessage)}];
+                NSError *error = [NSError errorWithDomain:kTyreErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
                 if (resultBlock) {
                     resultBlock(nil,error);
                 }
@@ -292,20 +225,20 @@ static dispatch_queue_t yx_httpClient_complete_queue() {
     return [RACSignal createSignal:^ id (id<RACSubscriber> subscriber) {
         void (^parseJSONDictionary)(NSDictionary *) = ^(NSDictionary *JSONDictionary) {
             if (resultClass == nil) {
-                BOOL isSuccess = [responseObject[@"success"] toBool];
+                BOOL isSuccess = [responseObject[@"success"] boolValue];
                 [subscriber sendNext:@(isSuccess)];
                 return;
             }
 
             if ([responseObject[kSuccessKey] boolValue] == NO) {
-                NSInteger errorCode = [responseObject[kCodeKey] toInt];
-                NSString *errorMessage = [responseObject[kMessageKey] toString];
-                NSError *error = [NSError errorWithDomain:kTyreErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey : VALID_STRING(errorMessage)}];
+                NSInteger errorCode = [responseObject[kCodeKey] integerValue];
+                NSString *errorMessage = responseObject[kMessageKey];
+                NSError *error = [NSError errorWithDomain:kTyreErrorDomain code:errorCode userInfo:@{NSLocalizedDescriptionKey : errorMessage}];
 
                 
                 [subscriber sendError:error];
                 if (errorCode == kLoginErrorCode) {
-                    [[NSNotificationCenter defaultCenter]postNotificationName:kNotificationLoginOut object:nil];
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"kNotificationLoginOut" object:nil];
                 }
                 return;
             }
