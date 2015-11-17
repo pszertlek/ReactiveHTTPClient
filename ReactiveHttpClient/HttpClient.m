@@ -19,8 +19,6 @@ static NSInteger kLoginErrorCode = 20001;
 static NSString *kSuccessKey = @"success";
 static NSString *kCodeKey = @"code";
 static NSString *kMessageKey = @"message";
-static NSString *AppKey = @"1711394416800";
-static NSString *AppSecret = @"cc1745453991ec29bfedd5f80a2d5bf0";
 static NSString *const kTyreErrorDomain = @"com.coco.httperror";
 
 
